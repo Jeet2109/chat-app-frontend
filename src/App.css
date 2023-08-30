@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap');
+
+.App {
+    min-height: 100vh;
+    display: flex;
+    background-image: url('./assets/images/background.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.home-header {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+    background-color: white;
+    width: 100%;
+    margin: 40px 0 15px 0;
+    border-radius: large;
+    border-width: 1px;
+}
+
+.home-tabs {
+    background-color: white;
+    width: 100%;
+    padding: 1.5rem;
+    border-radius: large;
+    border-width: 1px;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(136, 136, 136, 0.281);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
