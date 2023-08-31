@@ -33,6 +33,7 @@ import NotificationBadge from "react-notification-badge/lib/components/Notificat
 import { Icon } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import debounce from "lodash/debounce";
+import { axiosInstance } from "../../resusables/axiosConfig";
 
 const SideDrawer = () => {
   const {
@@ -66,7 +67,7 @@ const SideDrawer = () => {
         },
       };
 
-      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      const { data } = await axiosInstance.get(`/api/user?search=${search}`, config);
       setSearchResult(data);
     } catch (error) {
       toast({
@@ -103,7 +104,7 @@ const SideDrawer = () => {
         },
       };
 
-      const { data } = await axios.post("/api/chat", { userId }, config);
+      const { data } = await axiosInstance.post("/api/chat", { userId }, config);
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);
       onClose();

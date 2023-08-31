@@ -19,6 +19,7 @@ import { ChatState } from "../../context/ChatProvider";
 import axios from "axios";
 import UserListItem from "../User/UserListItem";
 import UserBadgeItem from "../User/UserBadgeItem";
+import { axiosInstance } from "../../resusables/axiosConfig";
 
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -48,7 +49,7 @@ const GroupChatModal = ({ children }) => {
 
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      const { data } = await axiosInstance.get(`/api/user?search=${search}`, config);
       setSearchResult(data);
       setLoading(false);
     } catch (error) {
@@ -94,7 +95,7 @@ const GroupChatModal = ({ children }) => {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      const { data } = await axios.post(
+      const { data } = await axiosInstance.post(
         "/api/chat/group/create",
         {
           name: groupChatName,

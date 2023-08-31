@@ -11,6 +11,7 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { axiosInstance } from "../../resusables/axiosConfig";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -43,7 +44,7 @@ const SignIn = () => {
         },
       };
 
-      const { data } = await axios.post(
+      const { data } = await axiosInstance.post(
         "/api/user/login",
         { email, password },
         config

@@ -21,6 +21,7 @@ import { ChatState } from "../../context/ChatProvider";
 import UserBadgeItem from "../User/UserBadgeItem";
 import axios from "axios";
 import UserListItem from "../User/UserListItem";
+import { axiosInstance } from "../../resusables/axiosConfig";
 
 const UpdateGroupModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -53,7 +54,7 @@ const UpdateGroupModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
 
     try {
       setLoading(true);
-      const { data } = await axios.put(
+      const { data } = await axiosInstance.put(
         "/api/chat/group/addUser",
         {
           chatId: selectedChat._id,
@@ -82,7 +83,7 @@ const UpdateGroupModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
     try {
       setLoading(true);
 
-      const { data } = await axios.put(
+      const { data } = await axiosInstance.put(
         "/api/chat/group/removeUser",
         {
           chatId: selectedChat._id,
@@ -113,7 +114,7 @@ const UpdateGroupModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
     try {
       setRenameLoading(true);
 
-      const { data } = await axios.put(
+      const { data } = await axiosInstance.put(
         "/api/chat/group/rename",
         {
           chatId: selectedChat._id,
@@ -154,7 +155,7 @@ const UpdateGroupModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
 
     try {
       setLoading(true);
-      const { data } = await axios.get(
+      const { data } = await axiosInstance.get(
         `/api/user?search=${searchValue}`,
         config
       );

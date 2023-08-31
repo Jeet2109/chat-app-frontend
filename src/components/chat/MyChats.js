@@ -6,6 +6,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
 import { getSender } from "../../resusables/util";
 import GroupChatModal from "./GroupChatModal";
+import { axiosInstance } from "../../resusables/axiosConfig";
 
 const MyChats = ({ fetchAgain }) => {
   // eslint-disable-next-line no-unused-vars
@@ -28,7 +29,7 @@ const MyChats = ({ fetchAgain }) => {
         },
       };
 
-      const { data } = await axios.get("/api/chat", config);
+      const { data } = await axiosInstance.get("/api/chat", config);
       setChats(data);
     } catch (error) {
       toast({
