@@ -21,6 +21,7 @@ import Lottie from "react-lottie";
 import animationData from "../../animation/typing_animation.json";
 import { axiosInstance } from "../../resusables/axiosConfig";
 
+// endpoint for backend
 const ENDPOINT = "https://chitchat-service-api.onrender.com";
 
 let socket, selectedChatCompare;
