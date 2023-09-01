@@ -13,7 +13,6 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { getSender, getSenderInfo } from "../../resusables/util";
 import ProfileModal from "./ProfileModal";
 import UpdateGroupModal from "./UpdateGroupModal";
-import axios from "axios";
 import "../../styles/chat.css";
 import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
@@ -22,6 +21,7 @@ import animationData from "../../animation/typing_animation.json";
 import { axiosInstance } from "../../resusables/axiosConfig";
 
 const ENDPOINT = "https://chitchat-service-api.onrender.com";
+// const ENDPOINT = "http://localhost:3000"; // use this when developing
 
 let socket, selectedChatCompare;
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -43,8 +43,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-
-  console.log("selectedChat",selectedChat)
 
   const toast = useToast();
 

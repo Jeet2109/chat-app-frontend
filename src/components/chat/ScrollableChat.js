@@ -2,8 +2,6 @@ import React, { useEffect, useRef } from "react";
 import {
   isLastMessage,
   isSameSender,
-  isSameSenderMargin,
-  isSameUser,
 } from "../../resusables/util";
 import { ChatState } from "../../context/ChatProvider";
 import { Avatar, Badge, Tooltip } from "@chakra-ui/react";
@@ -61,39 +59,39 @@ const ScrollableChat = ({ messages, isGroupChat }) => {
       {groupedMessages.map((group) => {
         const today = moment();
         const groupDate = moment(group.dateObj);
-        const formattedDate =
-          groupDate.isSame(today, "day")
-            ? "Today"
-            : groupDate.isSame(today.clone().subtract(1, "days"), "day")
-            ? "Yesterday"
-            : groupDate.isAfter(today.clone().subtract(7, "days"), "day")
-            ? groupDate.format("dddd")
-            : group.date; // If it's older than a week, display in DD/MM/YYYY format
+        const formattedDate = groupDate.isSame(today, "day")
+          ? "Today"
+          : groupDate.isSame(today.clone().subtract(1, "days"), "day")
+          ? "Yesterday"
+          : groupDate.isAfter(today.clone().subtract(7, "days"), "day")
+          ? groupDate.format("dddd")
+          : group.date; // If it's older than a week, display in DD/MM/YYYY format
 
         return (
           <div key={group.date}>
             <div style={{ textAlign: "center", marginBottom: "8px" }}>
-              <Badge colorScheme='green'>{formattedDate}</Badge>
+              <Badge colorScheme="green">{formattedDate}</Badge>
             </div>
             {group.messages.map((message, index) => (
               <div style={{ display: "flex" }} key={message._id}>
-                {isGroupChat && (isSameSender(group.messages, message, index, user._id) ||
-                  isLastMessage(group.messages, index, user._id)) && (
-                  <Tooltip
-                    label={message.sender.name}
-                    placement="bottom-start"
-                    hasArrow
-                  >
-                    <Avatar
-                      mt={"7px"}
-                      mr={1}
-                      size={"sm"}
-                      cursor={"pointer"}
-                      name={message.sender.name}
-                      src={message.sender.photo}
-                    />
-                  </Tooltip>
-                )}
+                {isGroupChat &&
+                  (isSameSender(group.messages, message, index, user._id) ||
+                    isLastMessage(group.messages, index, user._id)) && (
+                    <Tooltip
+                      label={message.sender.name}
+                      placement="bottom-start"
+                      hasArrow
+                    >
+                      <Avatar
+                        mt={"7px"}
+                        mr={1}
+                        size={"sm"}
+                        cursor={"pointer"}
+                        name={message.sender.name}
+                        src={message.sender.photo}
+                      />
+                    </Tooltip>
+                  )}
                 <span
                   style={{
                     backgroundColor: `${
@@ -103,20 +101,9 @@ const ScrollableChat = ({ messages, isGroupChat }) => {
                     padding: "5px 15px",
                     maxWidth: "75%",
                     color: "black",
-                    marginLeft: isSameSenderMargin(
-                      group.messages,
-                      message,
-                      index,
-                      user._id
-                    ),
-                    marginTop: isSameUser(
-                      group.messages,
-                      message,
-                      index,
-                      user._id
-                    )
-                      ? 3
-                      : 10,
+                    marginLeft: message.sender._id === user._id ? "auto" : "0", // Align to right if sender is current user
+                    marginRight: message.sender._id === user._id ? "0" : "auto", // Align to left if sender is not the current user
+                    marginTop: "0.25rem"
                   }}
                 >
                   {message.content}
