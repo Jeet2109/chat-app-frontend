@@ -42,7 +42,6 @@ const MyChats = ({ fetchAgain }) => {
     }
   };
 
-  console.log("chats", chats)
   return (
     <Box
       display={{ base: selectedChat ? "none" : "flex", md: "flex" }}

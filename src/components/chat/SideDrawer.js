@@ -123,8 +123,6 @@ const SideDrawer = () => {
     }
   };
 
-  console.log("notification",notification)
-
   return (
     <>
       <Box
