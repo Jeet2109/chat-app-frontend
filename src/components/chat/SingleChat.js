@@ -15,15 +15,12 @@ import ProfileModal from "./ProfileModal";
 import UpdateGroupModal from "./UpdateGroupModal";
 import "../../styles/chat.css";
 import ScrollableChat from "./ScrollableChat";
-import io from "socket.io-client";
 import Lottie from "react-lottie";
 import animationData from "../../animation/typing_animation.json";
 import { axiosInstance } from "../../resusables/axiosConfig";
+import socket from "../../resusables/socket";
 
-const ENDPOINT = "https://chitchat-service-api.onrender.com";
-// const ENDPOINT = "http://localhost:3000"; // use this when developing
-
-let socket, selectedChatCompare;
+let selectedChatCompare;
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { user, selectedChat, setSelectedChat, notification, setNotification } =
     ChatState();
@@ -80,7 +77,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   useEffect(() => {
-    socket = io(ENDPOINT);
     socket.emit("setup", user);
     socket.on("connected", () => {
       setSocketConnected(true);

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { ChatState } from "../../context/ChatProvider";
 import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
-import axios from "axios";
 import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
 import { getSender } from "../../resusables/util";
 import GroupChatModal from "./GroupChatModal";
 import { axiosInstance } from "../../resusables/axiosConfig";
+import socket from "../../resusables/socket";
 
 const MyChats = ({ fetchAgain }) => {
   // eslint-disable-next-line no-unused-vars
@@ -20,6 +20,17 @@ const MyChats = ({ fetchAgain }) => {
     fetchChats();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchAgain]);
+
+  const leaveChat = (chatId) => {
+    if (socket && chatId) {
+      socket.emit("leave chat", chatId);
+    }
+  };
+
+  const handleChatSelection = (chat) => {
+    leaveChat(selectedChat?._id); // Leave the current chat
+    setSelectedChat(chat); // Set the new selected chat
+  };  
 
   const fetchChats = async () => {
     try {
@@ -89,7 +100,7 @@ const MyChats = ({ fetchAgain }) => {
           <Stack overflowY={"scroll"}>
             {chats.map((chat) => (
               <Box
-                onClick={() => setSelectedChat(chat)}
+                onClick={() => handleChatSelection(chat)}
                 cursor={"pointer"}
                 bg={selectedChat?._id === chat._id ? "#4A90E2" : "#25282A"} // Adjust colors
                 color={selectedChat?._id === chat._id ? "white" : "gray.200"} // Adjust colors

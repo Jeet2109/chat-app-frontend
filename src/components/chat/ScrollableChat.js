@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import {
   isLastMessage,
-  isSameSender,
+  isSameSender, 
 } from "../../resusables/util";
 import { ChatState } from "../../context/ChatProvider";
 import { Avatar, Badge, Tooltip } from "@chakra-ui/react";

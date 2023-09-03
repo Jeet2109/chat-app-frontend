@@ -24,7 +24,6 @@ import React, { useState } from "react";
 import { ChatState } from "../../context/ChatProvider";
 import ProfileModal from "./ProfileModal";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import ChatLoading from "./ChatLoading";
 import UserListItem from "../User/UserListItem";
 import { getSender } from "../../resusables/util";
