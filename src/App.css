@@ -3,9 +3,10 @@
 .App {
     min-height: 100vh;
     display: flex;
-    background-image: url('./assets/images/background.png');
+    /* background-image: url('./assets/images/background.png'); */
     background-size: cover;
     background-position: center;
+    background-color: #000;
 }
 
 .home-header {

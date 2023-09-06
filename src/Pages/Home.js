@@ -25,16 +25,16 @@ function Home() {
 
   return (
     <Container maxW={"xl"} centerContent>
-      <Box className="home-header">
-        <Text fontSize="4xl" fontFamily="Work Sans">
+      <Box className="home-header" bg={"gray.800"}>
+        <Text fontSize="4xl" fontFamily="Work Sans" color="gray.300">
           Chit Chat
         </Text>
       </Box>
-      <Box className="home-tabs">
+      <Box className="home-tabs" bg={"gray.800"}>
         <Tabs variant={"soft-rounded"}>
           <TabList mb={"1em"}>
-            <Tab width={"50%"}>Sign In</Tab>
-            <Tab width={"50%"}>Sign Up</Tab>
+            <Tab width={"50%"} color="gray.300">Sign In</Tab>
+            <Tab width={"50%"} color="gray.300">Sign Up</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

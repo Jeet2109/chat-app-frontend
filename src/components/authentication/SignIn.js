@@ -74,7 +74,7 @@ const SignIn = () => {
     }
   };
   return (
-    <VStack spacing={"5px"}>
+    <VStack spacing={"5px"} color="gray.300">
       <FormControl id="email1" isRequired>
         <FormLabel>Email</FormLabel>
         <Input
