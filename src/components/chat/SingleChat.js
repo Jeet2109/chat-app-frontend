@@ -5,6 +5,8 @@ import {
   FormControl,
   IconButton,
   Input,
+  InputGroup,
+  InputRightElement,
   Spinner,
   Text,
   useToast,
@@ -31,6 +33,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [sending, setSending] = useState(false);
 
   const defaultOptions = {
     loop: true,
@@ -83,18 +86,19 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     });
     socket.on("typing", () => setIsTyping(true));
     socket.on("stoppedTyping", () => setIsTyping(false));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     fetchMessages();
     selectedChatCompare = selectedChat;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedChat]);
 
   const sendMessage = async (e) => {
     if (e.key === "Enter" && newMessage) {
       // socket.emit("stoppedTyping", selectedChat._id);
+      setSending(true);
       try {
         const config = {
           headers: {
@@ -115,6 +119,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
 
         socket.emit("new message", data);
+        setSending(false);
         setMessages((prevMessages) => [...prevMessages, data]);
       } catch (error) {
         toast({
@@ -125,6 +130,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           isClosable: true,
           position: "bottom",
         });
+        setSending(false);
       }
     }
   };
@@ -135,7 +141,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
-        if (!notification.includes((item) => item._id === newMessageRecieved._id)) {
+        if (
+          !notification.includes((item) => item._id === newMessageRecieved._id)
+        ) {
           setNotification([newMessageRecieved, ...notification]);
           setFetchAgain(!fetchAgain);
         }
@@ -221,7 +229,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               />
             ) : (
               <div className="messages">
-                <ScrollableChat messages={messages} isGroupChat={selectedChat.isGroupChat}/>
+                <ScrollableChat
+                  messages={messages}
+                  isGroupChat={selectedChat.isGroupChat}
+                />
               </div>
             )}
 
@@ -237,13 +248,20 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ) : (
                 <></>
               )}
-              <Input
-                variant={"filled"}
-                bg="gray.700"
-                placeholder="Enter a message..."
-                onChange={(e) => typingHandler(e)}
-                value={newMessage}
-              />
+              <InputGroup>
+                <Input
+                  variant={"filled"}
+                  bg="gray.700"
+                  placeholder="Enter a message..."
+                  onChange={(e) => typingHandler(e)}
+                  value={newMessage}
+                />
+                {sending && (
+                  <InputRightElement>
+                    <Spinner size="sm" color="teal.500" />
+                  </InputRightElement>
+                )}
+              </InputGroup>
             </FormControl>
           </Box>
         </>

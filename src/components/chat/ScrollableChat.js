@@ -1,8 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import {
-  isLastMessage,
-  isSameSender, 
-} from "../../resusables/util";
+import { isLastMessage, isSameSender } from "../../resusables/util";
 import { ChatState } from "../../context/ChatProvider";
 import { Avatar, Badge, Tooltip } from "@chakra-ui/react";
 import moment from "moment";
@@ -103,7 +100,7 @@ const ScrollableChat = ({ messages, isGroupChat }) => {
                     color: "black",
                     marginLeft: message.sender._id === user._id ? "auto" : "0", // Align to right if sender is current user
                     marginRight: message.sender._id === user._id ? "0" : "auto", // Align to left if sender is not the current user
-                    marginTop: "0.25rem"
+                    marginTop: "0.25rem",
                   }}
                 >
                   {message.content}
@@ -116,6 +113,17 @@ const ScrollableChat = ({ messages, isGroupChat }) => {
                     }}
                   >
                     {formatTime(message.createdAt)}
+                    {message.sender._id === user._id && (
+                      <span
+                        style={{
+                          marginLeft: "0.1rem",
+                          fontSize: "14px",
+                          color: "#02070e",
+                        }}
+                      >
+                        ✓
+                      </span>
+                    )}
                   </span>
                 </span>
               </div>
