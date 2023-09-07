@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ChatState } from "../../context/ChatProvider";
-import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Stack, Text, useToast } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
 import { getSender } from "../../resusables/util";
@@ -30,7 +30,60 @@ const MyChats = ({ fetchAgain }) => {
   const handleChatSelection = (chat) => {
     leaveChat(selectedChat?._id); // Leave the current chat
     setSelectedChat(chat); // Set the new selected chat
-  };  
+  };
+
+  const getLastMessageText = (chat) => {
+    let latestMessage = "";
+    if (chat.latestMessage) {
+      const maxLength = 30;
+      latestMessage = chat.latestMessage.content;
+      if (chat.latestMessage.content.length > maxLength) {
+        latestMessage = `${latestMessage.substring(0, maxLength)}...`;
+      }
+      if (chat.latestMessage.sender._id === loggedUser._id) {
+        return `You: ${latestMessage}`;
+      } else {
+        return `${chat.latestMessage.sender.name}: ${latestMessage}`;
+      }
+    } else {
+      return latestMessage;
+    }
+  };
+
+  const formatMessageTime = (messageTime) => {
+    const date = new Date(messageTime);
+    const now = new Date();
+    const timeDifference = now - date;
+
+    if (timeDifference < 24 * 60 * 60 * 1000) {
+      // Within the past 24 hours
+      return date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } else if (timeDifference < 7 * 24 * 60 * 60 * 1000) {
+      // Within the past week
+      const dayName = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ][date.getDay()];
+      return `${dayName}, ${date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })}`;
+    } else {
+      // Older than a week
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const year = date.getFullYear();
+      return `${month}/${day}/${year}`;
+    }
+  };
 
   const fetchChats = async () => {
     try {
@@ -73,7 +126,7 @@ const MyChats = ({ fetchAgain }) => {
         w="100%"
         justifyContent={"space-between"}
         alignItems={"center"}
-        color={ "white"} // Adjust colors
+        color={"white"} // Adjust colors
       >
         My Chats
         <GroupChatModal>
@@ -114,6 +167,14 @@ const MyChats = ({ fetchAgain }) => {
                     ? getSender(user, chat.users)
                     : chat.chatName}
                 </Text>
+                {chat.latestMessage && (
+                  <Text fontSize="sm">
+                    {getLastMessageText(chat)}
+                    <span style={{ float: "right" }}>
+                      {formatMessageTime(chat.latestMessage.createdAt)}
+                    </span>
+                  </Text>
+                )}
               </Box>
             ))}
           </Stack>
