@@ -150,34 +150,51 @@ const MyChats = ({ fetchAgain }) => {
         overflowY={"hidden"}
       >
         {chats ? (
-          <Stack overflowY={"scroll"}>
-            {chats.map((chat) => (
-              <Box
-                onClick={() => handleChatSelection(chat)}
-                cursor={"pointer"}
-                bg={selectedChat?._id === chat._id ? "#4A90E2" : "#25282A"} // Adjust colors
-                color={selectedChat?._id === chat._id ? "white" : "gray.200"} // Adjust colors
-                px={3}
-                py={2}
-                borderRadius={"lg"}
-                key={chat._id}
-              >
-                <Text>
-                  {!chat.isGroupChat
-                    ? getSender(user, chat.users)
-                    : chat.chatName}
-                </Text>
-                {chat.latestMessage && (
-                  <Text fontSize="sm">
-                    {getLastMessageText(chat)}
-                    <span style={{ float: "right" }}>
-                      {formatMessageTime(chat.latestMessage.createdAt)}
-                    </span>
+          <Box
+            height="100%" // Set a fixed height for the container
+            overflowY="scroll" // Add scroll behavior
+            css={{
+              // Add CSS to force the scrollbar
+              scrollbarWidth: "thin",
+              scrollbarColor: "gray.400 transparent",
+              "&::-webkit-scrollbar": {
+                width: "6px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: "gray.400",
+              },
+            }}
+          >
+            <Stack overflowY={"scroll"}>
+              {chats.map((chat) => (
+                <Box
+                  onClick={() => handleChatSelection(chat)}
+                  cursor={"pointer"}
+                  bg={selectedChat?._id === chat._id ? "#4A90E2" : "#25282A"} // Adjust colors
+                  color={selectedChat?._id === chat._id ? "white" : "gray.200"} // Adjust colors
+                  px={3}
+                  py={2}
+                  borderRadius={"lg"}
+                  key={chat._id}
+                  marginRight={"0.5rem"}
+                >
+                  <Text>
+                    {!chat.isGroupChat
+                      ? getSender(user, chat.users)
+                      : chat.chatName}
                   </Text>
-                )}
-              </Box>
-            ))}
-          </Stack>
+                  {chat.latestMessage && (
+                    <Text fontSize="sm">
+                      {getLastMessageText(chat)}
+                      <span style={{ float: "right" }}>
+                        {formatMessageTime(chat.latestMessage.createdAt)}
+                      </span>
+                    </Text>
+                  )}
+                </Box>
+              ))}
+            </Stack>
+          </Box>
         ) : (
           <ChatLoading />
         )}
